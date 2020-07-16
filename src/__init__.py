@@ -16,7 +16,6 @@ def create_app(script_info=None):
     # set up extensions
     db.init_app(app)
 
-    
     # register blueprints
     from src.routes.auth import auth_blueprint
     app.register_blueprint(auth_blueprint)
@@ -26,5 +25,4 @@ def create_app(script_info=None):
     def ctx():
         return {'app': app, 'db': db}
 
-    
     return app
