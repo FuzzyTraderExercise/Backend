@@ -1,0 +1,32 @@
+version: '3.6'
+
+services:
+  api:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    environment:
+      - FLASK_APP=src/__init__.py
+      - FLASK_ENV=development
+      - APP_SETTINGS=config.DevelopmentConfig
+      - DATABASE_URL=postgres://postgres:postgres@db/trader_dev
+    networks:
+      - default
+    ports:
+      - 5000:5000
+    volumes:
+      - '.:/src'
+
+  db:
+    container_name: fuzzy_trader_db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=trader_dev
+    image: postgres:latest
+    networks:
+      - default
+    ports:
+      - 5405:5432
