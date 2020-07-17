@@ -15,6 +15,9 @@ services:
       - TEST_SETTINGS=config.TestingConfig
       - DATABASE_URL=postgres://postgres:postgres@db/trader_dev
       - TEST_DATABASE_URL=postgres://postgres:postgres@db/trader_test
+      - JWT_ACCESS_TOKEN_EXPIRES=20
+      - JWT_REFRESH_TOKEN_EXPIRES=30
+      - JWT_SECRET_KEY=SECRETODEMAIS
     networks:
       - default
     ports:
