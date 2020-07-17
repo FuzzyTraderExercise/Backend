@@ -20,10 +20,34 @@ signup_schema = {
     "required": ["email", "password", "username"]
 }
 
+login_schema = {
+    "type": "object",
+    "properties": {
+        "email": {
+            "type": "string",
+            "format": "email"
+        },
+        "password": {
+            "type": "string"
+        }
+    },
+    "required": ["email", "password"]
+}
+
 
 def validate_signup_json(data):
     try:
         validate(data, signup_schema)
+    except ValidationError as e:
+        return {'valid': False, 'error': e}
+    except SchemaError as e:
+        return {'valid': False, 'error': e}
+    return {'valid': True, 'user': data}
+
+
+def validate_login_json(data):
+    try:
+        validate(data, login_schema)
     except ValidationError as e:
         return {'valid': False, 'error': e}
     except SchemaError as e:

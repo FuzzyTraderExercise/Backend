@@ -5,6 +5,8 @@ from flask import request
 from src import db
 from src.models import User
 from src.schemas.auth import validate_signup_json
+from src.schemas.auth import validate_login_json
+from flask_jwt_extended import create_access_token
 auth_blueprint = Blueprint('auth_blueprint', __name__)
 
 
@@ -23,7 +25,7 @@ def sign_up():
     # Check if request had the appropriate body format
     if not request_data['valid']:
         return jsonify({
-            'message': "Missing parameter"
+            'message': 'Missing parameter'
         }), 400
 
     # Check if there is already a user registered with this e-mail
@@ -56,6 +58,52 @@ def sign_up():
         return jsonify({
             'message': 'Could not register user, try again!'
         }), 400
+
+"""
+Request Body: Object with user's email and password
+Response: JWT Token and Status Code of request
+Description: Used to allow user to access system
+"""
+
+
+@auth_blueprint.route('/login', methods=['POST'])
+def login():
+    validate_data = request.get_json()
+    request_data = validate_login_json(validate_data)
+
+    # Check if request had the appropriate body format
+    if not request_data['valid']:
+        return jsonify({
+            'message': 'Missing parameter.'
+        }), 400
+
+    # Check if user is registered
+    user_data = request_data['user']
+    registered_user = User.query.filter_by(email=user_data['email']).first()
+
+    if registered_user is None:
+        return jsonify({
+            'message': 'User not registered'
+        }), 400
+
+    # Check user credentials
+    if user_data['password'] != registered_user.password:
+        return jsonify({
+            'message': 'Invalid Password'
+        }), 400
+
+    try:
+        jwt_token = create_access_token(identity=user_data)
+    except Exception as e:
+        return jsonify({
+            'message': 'Could not generate login token'
+        }), 400
+
+    return jsonify({
+        'message': 'Logged in sucessfully',
+        'JWT_Token': jwt_token
+    }), 200
+
 
 """
 Request Body: None
