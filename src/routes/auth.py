@@ -1,4 +1,3 @@
-
 from typing import List
 from flask import Blueprint
 from flask import jsonify
@@ -42,8 +41,13 @@ def sign_up():
                         password=user_data['password'])
 
     if sign_up_data is not None:
-        db.session.add(sign_up_data)
-        db.session.commit()
+        try:
+            db.session.add(sign_up_data)
+            db.session.commit()
+        except Exception as e:
+            return jsonify({
+                'message': 'Error in database, try again!'
+            }), 400
 
         return jsonify({
             'message': 'User registered successfully!'
@@ -51,4 +55,33 @@ def sign_up():
     else:
         return jsonify({
             'message': 'Could not register user, try again!'
+        }), 400
+
+"""
+Request Body: None
+Response: Status code determining if content of users table was deleted
+Description: Used to delete all entries in users table
+"""
+
+
+@auth_blueprint.route('/delete', methods=['DELETE'])
+def delete():
+    user_data = User.query.order_by(User.username).all()
+
+    if len(user_data) >= 1:
+        try:
+            for user in user_data:
+                db.session.delete(user)
+            db.session.commit()
+        except Exception as e:
+            return jsonify({
+                'message': 'Error in database, try again!'
+            }), 400
+
+        return jsonify({
+            'message': 'Records sucessfully deleted'
+        }), 200
+    else:
+        return jsonify({
+            'message': 'No records to delete'
         }), 400
