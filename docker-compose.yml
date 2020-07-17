@@ -12,6 +12,7 @@ services:
       - FLASK_APP=src/__init__.py
       - FLASK_ENV=development
       - APP_SETTINGS=config.DevelopmentConfig
+      - TEST_SETTINGS=config.TestingConfig
       - DATABASE_URL=postgres://postgres:postgres@db/trader_dev
       - TEST_DATABASE_URL=postgres://postgres:postgres@db/trader_test
     networks:

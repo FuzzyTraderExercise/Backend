@@ -17,7 +17,6 @@ RUN pip install -r requirements.txt
 COPY ./entrypoint.sh /src/entrypoint.sh
 RUN chmod +x /src/entrypoint.sh
 
-
 COPY . /src
 
 CMD ["/src/entrypoint.sh"]

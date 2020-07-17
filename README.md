@@ -25,3 +25,7 @@ Para acessar o banco de dados da aplicação, utilize o seguinte comando enquant
 Para rodar a folha de estilo pep8 e ver se o projeto está conforme os padrões, execute o comando:
 
 > ```make pep8```
+
+Para rodar os testes da aplicação, execute o comando:
+
+> ```make tests``` 
