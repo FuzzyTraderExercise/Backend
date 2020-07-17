@@ -18,6 +18,7 @@ services:
       - JWT_ACCESS_TOKEN_EXPIRES=20
       - JWT_REFRESH_TOKEN_EXPIRES=30
       - JWT_SECRET_KEY=SECRETODEMAIS
+      - MARKET_STACK_KEY=19990472b8c72bff10e192cc1f84069a
     networks:
       - default
     ports:

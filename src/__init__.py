@@ -21,6 +21,8 @@ def create_app(script_info=None):
     # register blueprints
     from src.routes.auth import auth_blueprint
     app.register_blueprint(auth_blueprint)
+    from src.routes.investment import investment_blueprint
+    app.register_blueprint(investment_blueprint)
 
     # set up jwt token
     jwt = JWTManager(app)
@@ -30,7 +32,7 @@ def create_app(script_info=None):
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(
         minutes=int(os.getenv('JWT_REFRESH_TOKEN_EXPIRES'))
     )
-    app.config['JWT_SECRET_KEY'] =  os.getenv('JWT_SECRET_KEY')
+    app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
 
     # shell context for flask cli
     @app.shell_context_processor
