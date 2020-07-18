@@ -30,5 +30,9 @@ class InvestmentTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
     """
 
+    def test_should_populate_database_with_bitcoin(self):
+        response = self.app.post('/populate-bitcoin')
+        self.assertEqual(response.status_code, 200)
+
 if __name__ == "__main__":
     unittest.main()

@@ -55,3 +55,45 @@ def post_market_share():
     return jsonify({
         'message': 'Database populated successfully'
     }), 200
+
+
+"""
+Request Body: None
+Response: Status code to determine success or not
+Description: Connect to blockchain api and populate db
+"""
+
+
+@investment_blueprint.route('/populate-bitcoin', methods=['POST'])
+def post_bitcoin():
+    url = 'https://blockchain.info/tobtc'
+    params = {
+        'currency': 'USD',
+        'value': 500,
+        'cors': 'TRUE'
+    }
+
+    response = requests.get(url, params=params)
+
+    if response.status_code == 400:
+        return jsonify({
+            'message': 'Could not connect to blockchain API'
+        }), 400
+
+    response = response.json()
+    bitcoin = Investment(stock_name='Bitcoin',
+                         usd_value=500,
+                         is_bitcoin=True,
+                         bitcoin_value=response)
+
+    try:
+        db.session.add(bitcoin)
+        db.session.commit()
+    except Exception as e:
+        return jsonify({
+            'Message': 'Could not store bitcoin in database'
+        }), 400
+
+    return jsonify({
+        'Message': 'Stored bitcoin sucessfully'
+    }), 200
