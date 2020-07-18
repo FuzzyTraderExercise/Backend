@@ -21,3 +21,13 @@ class Investment(db.Model):
     usd_value = db.Column(db.Float, nullable=False)
     bitcoin_value = db.Column(db.Float)
     is_bitcoin = db.Column(db.Boolean, nullable=False)
+
+
+class UserInvestment(db.Model):
+    __tablename__ = "user_investments"
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    investment_id = db.Column(db.Integer, db.ForeignKey('investments.id'))
+    usd_value = db.Column(db.Float, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True,
+                   unique=True)

@@ -23,6 +23,8 @@ def create_app(script_info=None):
     app.register_blueprint(auth_blueprint)
     from src.routes.investment import investment_blueprint
     app.register_blueprint(investment_blueprint)
+    from src.routes.user_investment import user_investment_blueprint
+    app.register_blueprint(user_investment_blueprint)
 
     # set up jwt token
     jwt = JWTManager(app)
