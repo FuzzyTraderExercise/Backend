@@ -133,6 +133,61 @@ class InvestmentTests(unittest.TestCase):
                                  json=payload)
         self.assertEqual(response.status_code, 400)
 
+    def test_should_get_user_investment(self):
+        # Get JWT Token and populate investments table
+        JWT_TOKEN = signup_and_login(self.app)
+        self.app.post('/populate-bitcoin')
+
+        headers = {
+            'Authorization': 'Bearer ' + JWT_TOKEN
+        }
+
+        payload = {
+            'email': 'marina@gmail.com',
+            'stock_name': 'Bitcoin' 
+        }
+
+        response = self.app.post('/register-investment',
+                                 headers=headers,
+                                 json=payload)
+
+        params = {
+            'email': 'marina@gmail.com',
+        }
+
+        response = self.app.get('/get-userinvestment',
+                                query_string=params,
+                                headers=headers)
+        self.assertEqual(response.status_code, 200)
+
+    def should_not_get_user_investment_without_jwt_token(self):
+        response = self.app.get('/get-userinvestment',
+                                query_string=params,
+                                headers=headers)
+        self.assertEqual(response.status_code, 401)
+
+    def should_not_get_user_investment_without_email(self):
+        # Get JWT Token and populate investments table
+        JWT_TOKEN = signup_and_login(self.app)
+        self.app.post('/populate-bitcoin')
+
+        headers = {
+            'Authorization': 'Bearer ' + JWT_TOKEN
+        }
+
+        payload = {
+            'email': 'marina@gmail.com',
+            'stock_name': 'Bitcoin' 
+        }
+
+        response = self.app.post('/register-investment',
+                                 headers=headers,
+                                 json=payload)
+
+        response = self.app.get('/get-userinvestment',
+                                headers=headers)
+        self.assertEqual(response.status_code, 400)
+
 # Sign up and log in to get JWT Token   
 def signup_and_login(client):
     payload = {
