@@ -15,3 +15,4 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "marinafuzzytrader" 
           heroku_email: "spamjoranhezon@gmail.com"
+          usedocker: true
