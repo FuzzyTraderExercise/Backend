@@ -1,6 +1,6 @@
 # Backend
 
-Exercício para realização de um Fuzzy Trader.
+Exercício para realização de um Fuzzy Trader. Link da API no Heroku: https://calm-hamlet-01595.herokuapp.com/
 
 ## Rodando o Projeto
 
