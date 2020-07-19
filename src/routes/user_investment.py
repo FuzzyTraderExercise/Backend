@@ -49,7 +49,7 @@ def get_investment():
             'stock_name': stock.stock_name
         }
 
-        user_investment_list.append
+        user_investment_list.append(temp_dict)
 
     return jsonify({
         'user_stocks': user_investment_list
